@@ -76,11 +76,10 @@ class SouShuBaClient:
         self.proxies = proxies
 
     def login_form_hash(self):
-        rst = self.session.get(f'https://{self.hostname}/member.php?mod=logging&action=login').text
+        rst = self.session.get(f'https://{self.hostname}/member.php?mod=logging&action=login', verify=False).text
         loginhash = re.search(r'<div id="main_messaqge_(.+?)">', rst).group(1)
         formhash = re.search(r'<input type="hidden" name="formhash" value="(.+?)" />', rst).group(1)
         return loginhash, formhash
-
     def login(self):
         """Login with username and password"""
         loginhash, formhash = self.login_form_hash()
